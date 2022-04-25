@@ -13,4 +13,8 @@ import './styles/app.css';
 
 const $ = require('jquery');
 import 'admin-lte/plugins/bootstrap/js/bootstrap.bundle';
+import 'admin-lte/dist/js/adminlte';
+
+import './scripts/switch-theme';
 import 'admin-lte/dist/js/adminlte'
+ 
