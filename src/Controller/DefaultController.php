@@ -15,6 +15,76 @@ class DefaultController extends AbstractController
      */
     public function index(): Response
     {
+        $options = $this->getParameter('olix_back_office');
+        return $this->render('default/index.html.twig', [
+            'options' => $options,
+        ]);
+    }
+
+
+    /**
+     * @Route("/toto", name="toto")
+     */
+    public function toto(): Response
+    {
+        $options = $this->getParameter('olix_back_office');
+        return $this->render('default/index.html.twig', [
+            'options' => $options,
+        ]);
+    }
+
+
+    /**
+     * @Route("/link21", name="home21")
+     */
+    public function index21(): Response
+    {
+        $options = $this->getParameter('olix_back_office');
+        return $this->render('default/index.html.twig', [
+            'options' => $options,
+        ]);
+    }
+    /**
+     * @Route("/link22", name="home22")
+     */
+    public function index22(): Response
+    {
+        $options = $this->getParameter('olix_back_office');
+        return $this->render('default/index.html.twig', [
+            'options' => $options,
+        ]);
+    }
+    /**
+     * @Route("/link23", name="home23")
+     */
+    public function index23(): Response
+    {
+        $options = $this->getParameter('olix_back_office');
+        return $this->render('default/index.html.twig', [
+            'options' => $options,
+        ]);
+    }
+
+
+    /**
+     * @Route("/link31", name="home31")
+     */
+    public function index31(): Response
+    {
+        $options = $this->getParameter('olix_back_office');
+        return $this->render('default/index.html.twig', [
+            'options' => $options,
+        ]);
+    }
+    /**
+     * @Route("/link32", name="home32")
+     */
+    public function index32(): Response
+    {
+        $options = $this->getParameter('olix_back_office');
+        return $this->render('default/index.html.twig', [
+            'options' => $options,
+        ]);
         return $this->render('default/index.html.twig');
     }
 
