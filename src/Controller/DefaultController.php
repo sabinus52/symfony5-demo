@@ -85,7 +85,28 @@ class DefaultController extends AbstractController
         return $this->render('default/index.html.twig', [
             'options' => $options,
         ]);
-        return $this->render('default/index.html.twig');
+    }
+
+
+    /**
+     * @Route("/notif/{id}", name="notif_one")
+     */
+    public function notifOne($id): Response
+    {
+        $options = $this->getParameter('olix_back_office');
+        return $this->render('default/index.html.twig', [
+            'options' => $options,
+        ]);
+    }
+    /**
+     * @Route("/notif/all", name="notif_all")
+     */
+    public function notifAll(): Response
+    {
+        $options = $this->getParameter('olix_back_office');
+        return $this->render('default/index.html.twig', [
+            'options' => $options,
+        ]);
     }
 
 }
