@@ -1,0 +1,14 @@
+olix_back_office:
+    options:
+#        navbar_fixed: true
+#        sidebar_collapsed: true
+#        skin: toto
+        dark_mode: false
+        navbar:
+            theme: dark
+            color: indigo
+        sidebar:
+            flat: true
+            compact: true
+            child_indent: true
+            color: indigo
