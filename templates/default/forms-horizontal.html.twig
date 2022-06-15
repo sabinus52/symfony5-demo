@@ -1,0 +1,152 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formText '@OlixBackOffice/Twig/form-theme-horizontal-layout.html.twig' %}
+{% form_theme formChoice '@OlixBackOffice/Twig/form-theme-horizontal-layout.html.twig' %}
+{% form_theme formSelect2 '@OlixBackOffice/Twig/form-theme-horizontal-layout.html.twig' %}
+{% form_theme formDateTime '@OlixBackOffice/Twig/form-theme-horizontal-layout.html.twig' %}
+{% form_theme formDateTimePicker '@OlixBackOffice/Twig/form-theme-horizontal-layout.html.twig' %}
+{% form_theme formOther '@OlixBackOffice/Twig/form-theme-horizontal-layout.html.twig' %}
+{% form_theme formButton '@OlixBackOffice/Twig/form-theme-horizontal-layout.html.twig' %}
+
+{% block title %}Hello DefaultController!{% endblock %}
+{% block content_title %}Formulaires{% endblock %}
+{% block content_subtitle %}{% endblock %}
+
+{% block javascripts %}
+{{ parent()}}
+<script type="text/javascript">
+(function()
+{
+
+    function formatRepo (repo) {
+        if (repo.loading) {
+            return repo.text;
+        }
+
+        var $container = $(
+            "<div class='select2-result-repository clearfix'>" +
+            //"<div class='select2-result-repository__avatar'><img src='" + repo.owner.avatar_url + "' /></div>" +
+            "<div class='select2-result-repository__meta'>" +
+                "<div class='select2-result-repository__title'></div>" +
+                "<div class='select2-result-repository__description'></div>" +
+            //    "<div class='select2-result-repository__statistics'>" +
+            //    "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> </div>" +
+            //    "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> </div>" +
+            //    "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> </div>" +
+                "</div>" +
+            "</div>" +
+            "</div>"
+        );
+
+        $container.find(".select2-result-repository__title").text(repo.full_name);
+        $container.find(".select2-result-repository__description").text(repo.description);
+        //$container.find(".select2-result-repository__forks").append(repo.forks_count + " Forks");
+        //$container.find(".select2-result-repository__stargazers").append(repo.stargazers_count + " Stars");
+        //$container.find(".select2-result-repository__watchers").append(repo.watchers_count + " Watchers");
+
+        return $container;
+    }
+
+    function formatRepoSelection (repo) {
+        return repo.full_name || repo.text;
+    }
+
+})();
+</script>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-6">
+
+                {{ form_start(formText) }}
+                <div class="card card-blue">
+                    <div class="card-header">
+                        <h3 class="card-title">Formulaire type Texte</h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form_rest(formText) }}
+                    </div>
+                </div>
+                {{ form_end(formText) }}
+
+                {{ form_start(formDateTime) }}
+                <div class="card card-olive">
+                    <div class="card-header">
+                        <h3 class="card-title">Formulaire type date et heure</h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form_rest(formDateTime) }}
+                    </div>
+                </div>
+                {{ form_end(formDateTime) }}
+
+                {{ form_start(formDateTimePicker) }}
+                <div class="card card-indigo">
+                    <div class="card-header">
+                        <h3 class="card-title">Formulaire type DateTimePicker</h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form_rest(formDateTimePicker) }}
+                    </div>
+                </div>
+                {{ form_end(formDateTimePicker) }}
+
+            </div>
+            <div class="col-md-6">
+
+                {{ form_start(formChoice) }}
+                <div class="card card-orange">
+                    <div class="card-header">
+                        <h3 class="card-title">Formulaire type Choix</h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form_rest(formChoice) }}
+                    </div>
+                </div>
+                {{ form_end(formChoice) }}
+
+                {{ form_start(formSelect2) }}
+                <div class="card card-orange">
+                    <div class="card-header">
+                        <h3 class="card-title">Formulaire type Select2 &amp; DualListBox</h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form_rest(formSelect2) }}
+                    </div>
+                </div>
+                {{ form_end(formSelect2) }}
+
+                {{ form_start(formOther) }}
+                <div class="card card-gray">
+                    <div class="card-header">
+                        <h3 class="card-title">Formulaire type Autres</h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form_rest(formOther) }}
+                    </div>
+                </div>
+                {{ form_end(formOther) }}
+
+                {{ form_start(formButton) }}
+                <div class="card card-green">
+                    <div class="card-header">
+                        <h3 class="card-title">Formulaire type Bouton</h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form_rest(formButton) }}
+                    </div>
+                </div>
+                {{ form_end(formButton) }}
+
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
