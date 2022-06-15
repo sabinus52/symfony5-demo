@@ -1,100 +1,117 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ *  This file is part of OlixBackOfficeBundle.
+ *  (c) Sabinus52 <sabinus52@gmail.com>
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace App\EventSubscriber;
 
+use App\Entity\Menu;
 use App\Model\MenuItem;
-use Olix\BackOfficeBundle\Model\MenuItemModel;
 use Olix\BackOfficeBundle\Event\SidebarMenuEvent;
 use Olix\BackOfficeBundle\EventSubscriber\MenuFactorySubscriber;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-
+/**
+ * Event sur la construction du menu.
+ */
 class MenuBuilderSubscriber extends MenuFactorySubscriber
 {
-
-    /**
-     * @return array
-     */
-    /*public static function getSubscribedEvents(): array
-    {
-        return [
-            SidebarMenuEvent::class => ['onSetupNavbar', 100],
-            //BreadcrumbMenuEvent::class => ['onSetupNavbar', 100],
-        ];
-    }*/
-
     public function build(SidebarMenuEvent $event): void
     {
         $child1 = new MenuItem('home', [
-            'label'         => 'Tableau de bord',
-            'route'         => 'home',
-            'routeArgs'     => array('param1' => 1, 'param2' => 'toto'),
-            'icon'          => 'ico1.png',
-            'badge'         => 'badge1',
-            'color'         => 'red',
+            'label' => 'Tableau de bord',
+            'route' => 'home',
+            'routeArgs' => ['param1' => 1, 'param2' => 'toto'],
+            'icon' => 'ico1.png',
+            'badge' => 'badge1',
+            'color' => 'red',
         ]);
 
-        
-
-
+        $form = new MenuItem('form', [
+            'label' => 'Formulaires',
+        ]);
+        $form
+            ->addChild(new MenuItem('form-vert', [
+                'label' => 'Forms vertical',
+                'route' => 'forms_vertical',
+            ]))
+            ->addChild(new MenuItem('form-horz', [
+                'label' => 'Forms horizontal',
+                'route' => 'forms_horizontal',
+            ]))
+            ->addChild(new MenuItem('form-test', [
+                'label' => 'Forms test',
+                'route' => 'forms_test',
+            ]))
+        ;
 
         $child2 = new MenuItem('child2', [
-            'label'         => 'Child two',
-            'icon'          => 'ico2.png',
-            'badge'         => 'badge2',
+            'label' => 'Child two',
+            'icon' => 'ico2.png',
+            'badge' => 'badge2',
         ]);
-        //$child2->setIsActive(true);
+        // $child2->setIsActive(true);
         $c21 = new MenuItem('c21', [
-            'label'         => 'Child C21',
-            'route'         => 'toto',
-            'icon'          => 'ico1.png',
-            'badge'         => 'badge1',
+            'label' => 'Child C21',
+            'route' => 'toto',
+            'icon' => 'ico1.png',
+            'badge' => 'badge1',
         ]);
-        //$c21->setIsActive(true);
-        
-        $m = [];
-        $menus = $this->entityManager->getRepository('App:Menu')->findAll();
+        // $c21->setIsActive(true);
+
+        $mmenu = [];
+        $menus = $this->entityManager->getRepository(Menu::class)->findAll();
         foreach ($menus as $key => $menu) {
-            $m[$key] = new MenuItem( 'em'.$menu->getId() , [
+            $mmenu[$key] = new MenuItem('em'.$menu->getId(), [
                 'label' => $menu->getLabel(),
                 'route' => 'home2'.$menu->getId(),
             ]);
-            ///if ($key == 0) $m[$key]->setIsActive(true);
-            $c21->addChild($m[$key]);
+            // /if ($key == 0) $m[$key]->setIsActive(true);
+            $c21->addChild($mmenu[$key]);
         }
         $child2->addChild($c21);
 
         $childi = new MenuItem('c21', [
-            'label'         => 'SÉPARATION',
+            'label' => 'SÉPARATION',
         ]);
 
         $child3 = new MenuItem('child3', [
-            'label'         => 'Child tree',
-            'icon'          => 'ico3.png',
+            'label' => 'Child tree',
+            'icon' => 'ico3.png',
         ]);
         $child3->setIsActive(false);
         $c31 = new MenuItem('c31', [
-            'label'         => 'Child 3 one',
-            'route'         => 'home31',
-            'routeArgs'     => array('param1' => 31, 'param2' => 'titi'),
+            'label' => 'Child 3 one',
+            'route' => 'home31',
+            'routeArgs' => ['param1' => 31, 'param2' => 'titi'],
         ]);
         $c32 = new MenuItem('c32', []);
         $c32
             ->setLabel('Child C32')
             ->setRoute('home32')
-            ->setRouteArgs(array('param1' => 32, 'param2' => 'titi'))
+            ->setRouteArgs(['param1' => 32, 'param2' => 'titi'])
             ->setIcon('icon32.png')
             ->setBadge(null)
-            ->setIsActive(false);
+            ->setIsActive(false)
+        ;
         $child3->addChild($c31)->addChild($c32);
+        $login = new MenuItem('login', [
+            'label' => 'Login',
+            'route' => 'olix_login',
+        ]);
         $event
             ->addItem($child1)
+            ->addItem($form)
             ->addItem($child2)
             ->addItem($childi)
-            ->addItem($child3);
-        //$m[0]->setIsActive(true);
+            ->addItem($child3)
+            ->addItem($login)
+        ;
+        // $m[0]->setIsActive(true);
     }
-
-    
-
 }

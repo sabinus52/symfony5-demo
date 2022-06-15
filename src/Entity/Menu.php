@@ -1,28 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ *  This file is part of OlixBackOfficeBundle.
+ *  (c) Sabinus52 <sabinus52@gmail.com>
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
 use App\Repository\MenuRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Classe de l'entité Menu.
+ *
  * @ORM\Entity(repositoryClass=MenuRepository::class)
+ * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class Menu
 {
     /**
+     * @var int
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private $id; /** @phpstan-ignore-line */
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=50)
      */
     private $label;
 
     /**
+     * @var string|null
      * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $icon;

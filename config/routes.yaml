@@ -1,3 +1,6 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+app_file:
+    # loads routes from the given routing file stored in some bundle
+    resource: '@OlixBackOfficeBundle/config/routing.yml'
