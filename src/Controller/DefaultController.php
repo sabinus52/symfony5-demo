@@ -159,14 +159,10 @@ class DefaultController extends AbstractController
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $result = $form->getData();
-            // Add this new user
-            // $manager->setUser($form->getData())->add($form->get('password')->getData());
-
-            // return $this->redirectToRoute('forms_test');
+            $this->addFlash('success', 'La validation a bien été pris en compte');
+            return $this->redirectToRoute('forms_test');
         }
         if ($form->isSubmitted() && !$form->isValid()) {
-            // $form->addError(new FormError('Tous les champs ne sont pas complètement remplis'));
             $this->addFlash('error', 'Tous les champs ne sont pas complètement remplis');
             $result = $form->getData();
         }

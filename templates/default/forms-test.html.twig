@@ -16,7 +16,7 @@
 
     <div class="container-fluid">
 
-        {#% include '@OlixBackOffice/Include/flash-messages.html.twig' %#}
+        {% include '@OlixBackOffice/Include/flash-messages.html.twig' %}
 
         {% if result is not null %}
             {{ dump(result) }}
