@@ -50,6 +50,16 @@ class MenuBuilderSubscriber extends MenuFactorySubscriber
             ]))
         ;
 
+        $table = new MenuItem('table', [
+            'label' => 'Tables',
+        ]);
+        $table
+            ->addChild(new MenuItem('table-server', [
+                'label' => 'Liste des serveurs',
+                'route' => 'table_server_list',
+            ]))
+        ;
+
         $child2 = new MenuItem('child2', [
             'label' => 'Child two',
             'icon' => 'ico2.png',
@@ -107,6 +117,7 @@ class MenuBuilderSubscriber extends MenuFactorySubscriber
         $event
             ->addItem($child1)
             ->addItem($form)
+            ->addItem($table)
             ->addItem($child2)
             ->addItem($childi)
             ->addItem($child3)

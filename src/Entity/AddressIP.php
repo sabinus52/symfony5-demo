@@ -122,6 +122,15 @@ class AddressIP
     private $fqdn;
 
     /**
+     * Liaison avec les serveurs //, cascade={"persist"}, mappedBy="addressIPs"
+     *
+     * @var Server
+     * @ORM\ManyToOne(targetEntity="App\Entity\Server", cascade={"persist"}, inversedBy="addressIPs")
+     * ORM\JoinColumn(referencedColumnName="toto")
+     */
+    private $server;
+
+    /**
      * Retourne la liste des status.
      *
      * @param string $field : Nom du champs à retourner
@@ -368,5 +377,28 @@ class AddressIP
     public function getFqdn()
     {
         return $this->fqdn;
+    }
+
+    /**
+     * Set server
+     *
+     * @param Server $server
+     *
+     * @return AddressIP
+     */
+    public function setServer(?Server $server = null): self
+    {
+        $this->server = $server;
+        return $this;
+    }
+
+    /**
+     * Get server
+     *
+     * @return Server
+     */
+    public function getServer(): Server
+    {
+        return $this->server;
     }
 }
