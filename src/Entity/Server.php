@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Entité des serveurs.
  *
  * @ORM\Table(name="server")
- * @ORM\Entity(repositoryClass="Albator\MainBundle\Repository\ServerRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ServerRepository")
  * @UniqueEntity(fields="hostname", message="Ce Hostname est déjà utilisé, merci d'en choisir un autre")
  * @UniqueEntity(fields="addrip", message="Cette IP est déjà utilisée, merci d'en choisir un autre")
  */
@@ -184,6 +184,19 @@ class Server
     }
 
     /**
+     * @return array<int>
+     */
+    public static function getChoiceStates(): array
+    {
+        $result = [];
+        foreach (self::$states as $key => $state) {
+            $result[$state['label']] = $key;
+        }
+
+        return $result;
+    }
+
+    /**
      * Retourne la liste des environnements.
      *
      * @param string $field : Nom du champs à retourner
@@ -201,6 +214,19 @@ class Server
                 throw new ErrorException("Le champs \"{$field}\" n'existe pas dans la propriété \"environments\" de l'entité \"Server\"");
             }
             $result[$key] = $env[$field];
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array<int>
+     */
+    public static function getChoiceEnvironments(): array
+    {
+        $result = [];
+        foreach (self::$environments as $key => $env) {
+            $result[$env['label']] = $key;
         }
 
         return $result;
@@ -353,7 +379,7 @@ class Server
      *
      * @return ArrayCollection
      */
-    public function getAddressIPs(): ArrayCollection
+    public function getAddressIPs()
     {
         return $this->addressIPs;
     }
@@ -512,7 +538,7 @@ class Server
      *
      * @return OperatingSystem
      */
-    public function getOperatingSystem(): OperatingSystem
+    public function getOperatingSystem(): ?OperatingSystem
     {
         return $this->operatingSystem;
     }

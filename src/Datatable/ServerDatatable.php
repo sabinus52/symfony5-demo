@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace App\Datatable;
 
 use App\Entity\Server;
-use App\Entity\User;
 use Olix\BackOfficeBundle\Datatable\AbstractDatatable;
 use Olix\BackOfficeBundle\Datatable\Column\ActionColumn;
 use Olix\BackOfficeBundle\Datatable\Column\BooleanColumn;
@@ -49,19 +48,12 @@ class ServerDatatable extends AbstractDatatable
      */
     public function buildDatatable(array $options = []): void
     {
-        $this->ajax->set([
-            // send some extra example data
-            'data' => ['data1' => 1, 'data2' => 2],
-            // cache for 10 pages
-            'pipeline' => 10,
-        ]);
+        $this->ajax->set([]);
 
         $this->options->set([
             'individual_filtering' => true,
             'order' => [[0, 'asc']],
         ]);
-
-        // $users = $this->em->getRepository(User::class)->findAll();
 
         $this->columnBuilder
             ->add('id', Column::class, [
@@ -71,17 +63,19 @@ class ServerDatatable extends AbstractDatatable
             ])
             ->add('hostname', Column::class, [
                 'title' => 'Hostname',
+                'searchable' => true,
             ])
             ->add('addrip.ip', Column::class, [
                 'title' => 'Adresse IP',
                 'default_content' => '',
-                // 'data' => 'addrip[,].ip',
+                'searchable' => true,
             ])
             ->add('virtual', BooleanColumn::class, [
                 'title' => 'Virtuel',
             ])
             ->add('environment', Column::class, [
                 'title' => 'Environnement',
+                'searchable' => true,
                 'filter' => [SelectFilter::class, [
                     'multiple' => false,
                     'cancel_button' => false,
@@ -89,15 +83,10 @@ class ServerDatatable extends AbstractDatatable
                 ]],
             ])
             ->add('os', VirtualColumn::class, [
-                'default_content' => '',
                 'title' => 'OS',
-                // 'default_content' => 'ZZ',
-                'searchable' => false,
-                'orderable' => true,
-                'order_column' => 'operatingSystem.bits', // use the 'createdBy.username' column for ordering
-                // 'search_column' => 'createdBy.username', // use the 'createdBy.username' column for searching
+                'default_content' => '',
+                'order_column' => 'operatingSystem.bits',
             ])
-
             ->add('operatingSystem.name', Column::class, [
                 'visible' => false,
                 'default_content' => '',
@@ -120,32 +109,37 @@ class ServerDatatable extends AbstractDatatable
             ->add('deletedAt', DateTimeColumn::class, [
                 'title' => 'Supprimé',
                 'date_format' => 'L',
-                'searchable' => false,
             ])
             ->add(null, ActionColumn::class, [
-                'title' => 'Actions',
-                'start_html' => '<div class="start_actions">',
-                'end_html' => '</div>',
                 'actions' => [
                     [
                         'route' => 'table_server_edit',
-                        'label' => 'Show Posting',
+                        'icon' => 'fas fa-edit',
+                        'label' => 'Edit',
                         'route_parameters' => [
                             'id' => 'id',
-                            '_format' => 'html',
-                            '_locale' => 'en',
                         ],
-                        /*'render_if' => function($row) {
-                            return $row['createdBy']['username'] === 'user' && $this->authorizationChecker->isGranted('ROLE_USER');
-                        },*/
                         'attributes' => [
                             'rel' => 'tooltip',
-                            'title' => 'Show',
-                            'class' => 'btn btn-primary btn-xs',
+                            'title' => 'Edit',
+                            'class' => 'btn btn-primary btn-sm',
                             'role' => 'button',
                         ],
-                        'start_html' => '<div class="start_show_action">',
-                        'end_html' => '</div>',
+                    ],
+                    [
+                        'route' => 'table_server_delete',
+                        'icon' => 'fas fa-trash',
+                        'label' => 'Delete',
+                        'route_parameters' => [
+                            'id' => 'id',
+                        ],
+                        'attributes' => [
+                            'rel' => 'tooltip',
+                            'title' => 'Delete',
+                            'class' => 'btn btn-danger btn-sm',
+                            'role' => 'button',
+                            'onclick' => 'return olixBackOffice.confirmDelete(this)',
+                        ],
                     ],
                 ],
             ])
