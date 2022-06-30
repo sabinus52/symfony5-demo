@@ -11,10 +11,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Constants\Environment;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use ErrorException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -44,26 +44,6 @@ class Server
         self::STATE_OFF => ['color' => 'dark',  'label' => 'Eteint'],
         self::STATE_ON => ['color' => 'green', 'label' => 'Allumé'],
         self::STATE_DELETED => ['color' => 'red',   'label' => 'Supprimé'],
-    ];
-
-    /**
-     * Liste des environnements.
-     *
-     * @var array<mixed>
-     */
-    protected static $environments = [
-        'X' => ['color' => 'purple',   'label' => 'PRODUCTION'],
-        'Z' => ['color' => 'purple',   'label' => 'MIXTE (AVEC PROD)'],
-        'B' => ['color' => 'orange',   'label' => 'PRE-PRODUCTION'],
-        'Q' => ['color' => 'blue',     'label' => 'QUALIFICATION'],
-        'D' => ['color' => 'dark',     'label' => 'DEVELOPPEMENT'],
-        'I' => ['color' => 'blue',     'label' => 'INTEGRATION'],
-        'F' => ['color' => 'blue',     'label' => 'FORMATION'],
-        'R' => ['color' => 'blue',     'label' => 'RECETTE'],
-        'S' => ['color' => 'dark',     'label' => 'BAC A SABLE'],
-        'T' => ['color' => 'dark',     'label' => 'TEST'],
-        'Y' => ['color' => 'blue',     'label' => 'MIXTE (TOUS SAUF PROD)'],
-        'H' => ['color' => 'default',  'label' => 'SECOURS'],
     ];
 
     /**
@@ -123,9 +103,9 @@ class Server
     private $virtual;
 
     /**
-     * @var string
+     * @var Environment
      *
-     * @ORM\Column(name="environment", type="string", length=1)
+     * @ORM\Column(name="environment", type="environment", length=1)
      */
     private $environment;
 
@@ -191,42 +171,6 @@ class Server
         $result = [];
         foreach (self::$states as $key => $state) {
             $result[$state['label']] = $key;
-        }
-
-        return $result;
-    }
-
-    /**
-     * Retourne la liste des environnements.
-     *
-     * @param string $field : Nom du champs à retourner
-     *
-     * @return array<mixed>
-     */
-    public static function getEnvironments(?string $field = null): array
-    {
-        if (!$field) {
-            return self::$environments;
-        }
-        $result = [];
-        foreach (self::$environments as $key => $env) {
-            if (!isset($env[$field])) {
-                throw new ErrorException("Le champs \"{$field}\" n'existe pas dans la propriété \"environments\" de l'entité \"Server\"");
-            }
-            $result[$key] = $env[$field];
-        }
-
-        return $result;
-    }
-
-    /**
-     * @return array<int>
-     */
-    public static function getChoiceEnvironments(): array
-    {
-        $result = [];
-        foreach (self::$environments as $key => $env) {
-            $result[$env['label']] = $key;
         }
 
         return $result;
@@ -427,7 +371,7 @@ class Server
      *
      * @return bool
      */
-    public function getVirtual(): bool
+    public function isVirtual(): bool
     {
         return $this->virtual;
     }
@@ -435,11 +379,11 @@ class Server
     /**
      * Set environment.
      *
-     * @param string $environment
+     * @param Environment $environment
      *
      * @return Server
      */
-    public function setEnvironment(string $environment): self
+    public function setEnvironment(Environment $environment): self
     {
         $this->environment = $environment;
 
@@ -449,9 +393,9 @@ class Server
     /**
      * Get environment.
      *
-     * @return string
+     * @return Environment
      */
-    public function getEnvironment(): string
+    public function getEnvironment(): Environment
     {
         return $this->environment;
     }
@@ -541,35 +485,5 @@ class Server
     public function getOperatingSystem(): ?OperatingSystem
     {
         return $this->operatingSystem;
-    }
-
-    /**
-     * Get environment label colorized.
-     *
-     * @return string
-     */
-    public function getEnvironmentLabelColor(): string
-    {
-        return '<span class="badge badge-'.self::$environments[$this->environment]['color'].'">'.self::$environments[$this->environment]['label'].'</span>';
-    }
-
-    /**
-     * Get environment Label.
-     *
-     * @return string
-     */
-    public function getEnvironmentLabel(): string
-    {
-        return self::$environments[$this->environment]['label'];
-    }
-
-    /**
-     * Get environment Color.
-     *
-     * @return string
-     */
-    public function getEnvironmentColor(): string
-    {
-        return self::$environments[$this->environment]['color'];
     }
 }

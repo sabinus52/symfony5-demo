@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Constants\Environment;
 use App\Entity\AddressIP;
 use App\Entity\OperatingSystem;
 use App\Entity\Server;
@@ -89,7 +90,9 @@ class ServerType extends AbstractType
             ])
             ->add('environment', ChoiceType::class, [
                 'label' => 'Environnement',
-                'choices' => Server::getChoiceEnvironments(),
+                'choices' => Environment::getChoices(),
+                'choice_value' => 'value',
+                'choice_label' => 'label',
             ])
             ->add('operatingSystem', Select2EntityType::class, [
                 'label' => 'Système d\'exploitation',

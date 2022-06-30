@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Datatable;
 
+use App\Constants\Environment;
 use App\Entity\Server;
 use Olix\BackOfficeBundle\Datatable\AbstractDatatable;
 use Olix\BackOfficeBundle\Datatable\Column\ActionColumn;
@@ -22,18 +23,19 @@ use Olix\BackOfficeBundle\Datatable\Filter\SelectFilter;
 
 /**
  * Classe ServerDatable.
+ *
+ * @SuppressWarnings(PHPMD.StaticAccess)
  */
 class ServerDatatable extends AbstractDatatable
 {
     public function getLineFormatter()
     {
-        $envs = Server::getEnvironments();
-        $formatter = function ($row) use ($envs) {
+        $formatter = function ($row) {
             // $row['os'] = 'x';
             if (isset($row['operatingSystem']['name'])) {
                 $row['os'] = $row['operatingSystem']['name'].' ('.$row['operatingSystem']['bits'].') '.$row['operatingSystem']['version'].' '.$row['operatingSystem']['additional'];
             }
-            $row['environment'] = '<span class="badge badge-'.$envs[$row['environment']]['color'].'">'.$envs[$row['environment']]['label'].'</span>';
+            $row['environment'] = $row['environment']->getBadge();
 
             return $row;
         };
@@ -58,8 +60,6 @@ class ServerDatatable extends AbstractDatatable
         $this->columnBuilder
             ->add('id', Column::class, [
                 'title' => 'Id',
-                'searchable' => false,
-                'orderable' => true,
             ])
             ->add('hostname', Column::class, [
                 'title' => 'Hostname',
@@ -79,7 +79,7 @@ class ServerDatatable extends AbstractDatatable
                 'filter' => [SelectFilter::class, [
                     'multiple' => false,
                     'cancel_button' => false,
-                    'select_options' => array_merge(['' => 'Tous'], Server::getEnvironments('label')),
+                    'select_options' => array_merge(['' => 'Tous'], Environment::getFilters()),
                 ]],
             ])
             ->add('os', VirtualColumn::class, [
