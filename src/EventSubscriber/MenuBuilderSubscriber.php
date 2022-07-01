@@ -58,6 +58,10 @@ class MenuBuilderSubscriber extends MenuFactorySubscriber
                 'label' => 'Liste des serveurs',
                 'route' => 'table_server_list',
             ]))
+            ->addChild(new MenuItem('table-adrip', [
+                'label' => 'Liste des IPs',
+                'route' => 'table_adrip__list',
+            ]))
         ;
 
         $child2 = new MenuItem('child2', [

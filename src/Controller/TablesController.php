@@ -11,8 +11,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Datatable\AddressIPDatatable;
 use App\Datatable\ServerDatatable;
+use App\Entity\AddressIP;
 use App\Entity\Server;
+use App\Form\AddressIPType;
 use App\Form\ServerType;
 use Doctrine\ORM\EntityManagerInterface;
 use Olix\BackOfficeBundle\Datatable\Response\DatatableResponse;
@@ -55,7 +58,7 @@ class TablesController extends AbstractController
     /**
      * @Route("/tables/server/create", name="table_server_create", methods={"GET", "POST"})
      */
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function createServer(Request $request, EntityManagerInterface $entityManager): Response
     {
         $server = new Server();
         $form = $this->createForm(ServerType::class, $server);
@@ -100,7 +103,7 @@ class TablesController extends AbstractController
     /**
      * @Route("/tables/server/delete/{id}", name="table_server_delete", methods={"POST"})
      */
-    public function delete(Request $request, Server $server, EntityManagerInterface $entityManager): Response
+    public function deleteServer(Request $request, Server $server, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createFormBuilder()->getForm();
 
@@ -117,5 +120,96 @@ class TablesController extends AbstractController
         $this->addFlash('danger', 'Erreur lors de laa suppression');
 
         return $this->redirectToRoute('table_server_list');
+    }
+
+    /**
+     * @Route("/tables/addressip/list", name="table_adrip__list")
+     */
+    public function listAddressIP(Request $request, AddressIPDatatable $datatable, DatatableResponse $responseService): Response
+    {
+        $isAjax = $request->isXmlHttpRequest();
+
+        $datatable->buildDatatable();
+
+        if ($isAjax) {
+            $responseService->setDatatable($datatable);
+            $responseService->getDatatableQueryBuilder();
+
+            return $responseService->getResponse();
+        }
+
+        $form = $this->createFormBuilder()->getForm();
+
+        return $this->renderForm('default/addressip-table.html.twig', [
+            'datatable' => $datatable,
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/tables/addressip/create", name="table_adrip__create", methods={"GET", "POST"})
+     */
+    public function createAddressIP(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $adrip = new AddressIP();
+        $form = $this->createForm(AddressIPType::class, $adrip);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($adrip);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'La création a bien été prise en compte');
+
+            return $this->redirectToRoute('table_adrip__list');
+        }
+
+        return $this->renderForm('default/addressip-edit.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * Update server.
+     *
+     * @Route("/tables/addressip/edit/{id}", name="table_adrip__edit")
+     */
+    public function updateAddressIP(Request $request, AddressIP $adrip, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(AddressIPType::class, $adrip);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash('success', 'La validation a bien été prise en compte');
+
+            return $this->redirectToRoute('table_adrip__list');
+        }
+
+        return $this->renderForm('default/addressip-edit.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/tables/addressip/delete/{id}", name="table_adrip__delete", methods={"POST"})
+     */
+    public function deleteAddressIP(Request $request, AddressIP $adrip, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createFormBuilder()->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->remove($adrip);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'La suppression a bien été prise en compte');
+
+            return $this->redirectToRoute('table_adrip__list');
+        }
+
+        $this->addFlash('danger', 'Erreur lors de laa suppression');
+
+        return $this->redirectToRoute('table_adrip__list');
     }
 }

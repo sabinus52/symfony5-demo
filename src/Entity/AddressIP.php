@@ -122,7 +122,7 @@ class AddressIP
     private $fqdn;
 
     /**
-     * Liaison avec les serveurs //, cascade={"persist"}, mappedBy="addressIPs"
+     * Liaison avec les serveurs //, cascade={"persist"}, mappedBy="addressIPs".
      *
      * @var Server
      * @ORM\ManyToOne(targetEntity="App\Entity\Server", cascade={"persist"}, inversedBy="addressIPs")
@@ -148,6 +148,19 @@ class AddressIP
                 throw new ErrorException("Le champs \"{$field}\" n'existe pas dans la propriété \"states\" de l'entité \"AddressIP\"");
             }
             $result[$key] = $state[$field];
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array<int>
+     */
+    public static function getChoiceStates(): array
+    {
+        $result = [];
+        foreach (self::$states as $key => $state) {
+            $result[$state['label']] = $key;
         }
 
         return $result;
@@ -350,7 +363,7 @@ class AddressIP
      *
      * @return bool
      */
-    public function getPing()
+    public function isPing()
     {
         return $this->ping;
     }
@@ -374,13 +387,13 @@ class AddressIP
      *
      * @return bool
      */
-    public function getFqdn()
+    public function isFqdn()
     {
         return $this->fqdn;
     }
 
     /**
-     * Set server
+     * Set server.
      *
      * @param Server $server
      *
@@ -389,11 +402,12 @@ class AddressIP
     public function setServer(?Server $server = null): self
     {
         $this->server = $server;
+
         return $this;
     }
 
     /**
-     * Get server
+     * Get server.
      *
      * @return Server
      */

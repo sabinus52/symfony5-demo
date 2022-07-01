@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DefaultController!{% endblock %}
+{% block content_title %}Adresses IP{% endblock %}
+{% block content_subtitle %}Liste des IPs{% endblock %}
+
+{% block javascripts %}
+{{ parent()}}
+{{ olixbo_datatable_js(datatable) }}
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card card-blue">
+                    <div class="card-header">
+                        <h3 class="card-title">Liste des IPs</h3>
+                        <div class="card-tools"><a href="{{ path('table_adrip__create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Ajouter</a></div>
+                    </div>
+                    <div class="card-body">
+                        {{ olixbo_datatable_html(datatable) }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    {% include '@OlixBackOffice/Include/modal-delete.html.twig' with {'element': 'cette IP'} %}
+
+{% endblock %}
