@@ -22,8 +22,8 @@ use App\Form\TestTextType;
 use App\Form\TestType;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use PDO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -160,6 +160,7 @@ class DefaultController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('success', 'La validation a bien été pris en compte');
+
             return $this->redirectToRoute('forms_test');
         }
         if ($form->isSubmitted() && !$form->isValid()) {
@@ -171,6 +172,27 @@ class DefaultController extends AbstractController
             'form' => $form,
             'result' => $result,
         ]);
+    }
+
+    /**
+     * @Route("/autocomplete/{term}", options={"expose": true}, name="autocomplete-ips")
+     */
+    public function autocompleteIP(Request $request, ManagerRegistry $doctrine): JsonResponse
+    {
+        $entityManager = $doctrine->getManager();
+        $term = $request->get('term');
+
+        /** @phpstan-ignore-next-line */
+        $query = $entityManager->getRepository(AddressIP::class)->createQueryBuilder('m')
+            ->andWhere('m.ip LIKE :val')
+            ->setParameter('val', '%'.$term.'%')
+            ->orderBy('m.ip', 'ASC')
+            ->getQuery()
+        ;
+
+        $result = $query->getResult(PDO::FETCH_ASSOC);
+
+        return $this->json($result);
     }
 
     /**
