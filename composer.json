@@ -47,6 +47,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "almasaeed2010/adminlte": "^3.2",
         "friendsofsymfony/jsrouting-bundle": "^2.0|^3.0",
         "symfony/debug-bundle": "5.4.*",
         "symfony/maker-bundle": "^1.0",
@@ -84,24 +85,16 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "assets:adminlte %PUBLIC_DIR%": "symfony-cmd",
+            "fos:js-routing:dump --format=json --target=config/routes/fos_js_routes.json": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ],
-        "test": "phpunit --debug",
-        "phpmd": [
-            "phpmd src ansi ruleset.xml",
-            "phpmd tests ansi ruleset.xml"
-        ],
-        "phpstan": "phpstan analyse src --level=7 --configuration=phpstan.neon",
-        "codestyle": "php-cs-fixer fix --dry-run --verbose --diff",
-        "codestyle-fix": "php-cs-fixer fix",
-        "csniff": "phpcs src tests --colors --standard=PSR12 ",
-        "csniff-fix": "phpcbf src --colors --standard=PSR12"
+        ]
     },
     "conflict": {
         "symfony/symfony": "*"
