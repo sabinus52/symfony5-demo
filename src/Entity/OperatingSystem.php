@@ -348,7 +348,7 @@ class OperatingSystem
      *
      * @return int
      */
-    public function getBits(): int
+    public function getBits(): ?int
     {
         return $this->bits;
     }

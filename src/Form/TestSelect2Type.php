@@ -11,9 +11,11 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Entity\AddressIP;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Olix\BackOfficeBundle\Form\Type\DualListBoxChoiceType;
+use Olix\BackOfficeBundle\Form\Type\Select2AjaxType;
 use Olix\BackOfficeBundle\Form\Type\Select2ChoiceType;
 use Olix\BackOfficeBundle\Form\Type\Select2EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -51,14 +53,14 @@ class TestSelect2Type extends AbstractType
                 'choices' => self::$choices,
                 'help' => 'Voici une aide qui pourrait t\'aider',
                 'color' => 'danger',
-                'ojs_minimum_input_length' => 2,
+                'js_minimum_input_length' => 2,
             ])
             ->add('select_multiple', Select2ChoiceType::class, [
                 'label' => 'Sélection multiple',
                 'multiple' => true,
                 'choices' => self::$choices,
                 'color' => 'indigo',
-                'ojs_placeholder' => 'Mon choix',
+                'js_placeholder' => 'Mon choix',
             ])
             ->add('select_users', Select2EntityType::class, [
                 'label' => 'Sélection users',
@@ -71,23 +73,32 @@ class TestSelect2Type extends AbstractType
                 },
                 'choice_label' => 'username',
             ])
-            ->add('ajax_repo', Select2ChoiceType::class, [
+            ->add('ajax_repo', Select2AjaxType::class, [
                 'label' => 'Sélection Ajax',
                 'multiple' => false,
+                'required' => false,
+                'remote_route' => 'form_test_select2_ajax',
+                'ajax_js_scroll' => false,
+                'class' => AddressIP::class,
+                'class_property' => 'ip',
+                'class_pkey' => 'id',
+                'class_label' => 'ip',
+                'js_minimum_input_length' => 3,
             ])
             /*->add('ajax_ips', Select2ChoiceType::class, [
                 'label' => 'Sélection IPs',
                 'multiple' => false,
-                'ajax_route' => 'addressip_ajax',
+                'remote_route' => 'addressip_ajax',
                 'ajax_scroll' => false,
-                'ojs_minimum_input_length' => 2,
-                'ojs_allow_clear' => true,
+                'js_minimum_input_length' => 2,
+                'js_allow_clear' => true,
             ])*/
             ->add('duallist', DualListBoxChoiceType::class, [
                 'label' => 'DualBox multiple',
                 'multiple' => true,
                 'choices' => self::$choices,
                 'help' => 'Voici une aide qui pourrait t\'aider',
+                'js_filter_place_holder' => 'Texte à filtrer',
             ])
         ;
     }

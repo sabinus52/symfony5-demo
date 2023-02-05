@@ -61,7 +61,7 @@ class TestType extends AbstractType
                 'label' => 'Bouton swtich',
                 'help' => 'Voici une aide qui pourrait t\'aider',
                 'required' => false,
-                'ojs_on_color' => 'indigo',
+                'js_on_color' => 'indigo',
                 'data' => true,
             ])
             ->add('select_users', Select2EntityType::class, [
@@ -76,36 +76,38 @@ class TestType extends AbstractType
                 },
                 'choice_label' => 'username',
                 'constraints' => [new NotBlank()],
-                'ojs_allow_clear' => true,
+                'js_allow_clear' => true,
             ])
             ->add('ajax_ip', Select2AjaxType::class, [
                 'label' => 'Sélection IP',
                 // 'multiple' => false,
                 'required' => false,
-                'ajax_route' => 'addressip_ajax',
-                'ajax_scroll' => false,
+                'remote_route' => 'form_test_ajax',
+                'ajax_js_scroll' => false,
                 'class' => AddressIP::class,
-                'primary_key' => 'id',
-                'label_field' => 'ip',
-                'minimum_input_length' => 2,
+                'class_property' => 'ip',
+                'class_pkey' => 'id',
+                'class_label' => 'ip',
+                'js_minimum_input_length' => 2,
                 // 'constraints' => [new NotBlank()],
             ])
             ->add('ajax_ips', Select2AjaxType::class, [
                 'label' => 'Sélection IPs',
                 'multiple' => true,
                 'required' => false,
-                'ajax_route' => 'addressip_ajax',
-                'ajax_scroll' => true,
+                'remote_route' => 'form_test_ajax',
+                'ajax_js_scroll' => false,
                 'class' => AddressIP::class,
-                'primary_key' => 'id',
-                'label_field' => 'ip',
-                'minimum_input_length' => 3,
+                'class_property' => 'ip',
+                'class_pkey' => 'id',
+                'class_label' => 'ip',
+                'js_minimum_input_length' => 3,
                 // 'constraints' => [new NotBlank()],
             ])
             ->add('date', DatePickerType::class, [
                 'label' => 'Date',
                 // 'ojs_min_date' => new \DateTime('05/05/2022'),
-                'ojs_calendar_weeks' => true,
+                'js_calendar_weeks' => true,
             ])
         ;
     }

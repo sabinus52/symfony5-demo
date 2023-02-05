@@ -1,15 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% form_theme form '@OlixBackOffice/Twig/form-theme-horizontal-layout.html.twig' %}
+{#% form_theme form '@OlixBackOffice/Twig/form-theme-horizontal-layout.html.twig' %#}
+{% form_theme form _self %}
+{% use '@OlixBackOffice/Twig/form-theme-horizontal-layout.html.twig' %}
+{#% use 'bootstrap_4_layout.html.twig' %#}
 
 {% block title %}Hello DefaultController!{% endblock %}
 {% block content_title %}Formulaires{% endblock %}
 {% block content_subtitle %}{% endblock %}
 
-{% block javascripts %}
-{{ parent()}}
-<script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
-{% endblock %}
+
+{# Nom de 'block_prefix' du formulaire "StepType" #}
+{% block step_row -%}
+    <div class="form-group form-row collection-item">
+        <div class="col-sm-12">
+            <div class="form-group form-row form-control-sm">
+                <div class="col-12 col-lg-6">
+                    {{ form_widget(form.content1, { attr: form.content1.vars.attr|merge({'class': form.content1.vars.attr['class']|default('') ~ ' form-control-sm' }) }) }}
+                    {{ form_errors(form.content1) }}
+                    {{ form_help(form.content1) }}
+                </div>
+                <div class="col-12 col-lg-5">
+                    {{ form_widget(form.content2, { attr: form.content2.vars.attr|merge({'class': form.content2.vars.attr['class']|default('') ~ ' form-control-sm' }) }) }}
+                    {{ form_errors(form.content2) }}
+                    {{ form_help(form.content2) }}
+                </div>
+                <div class="col-2 col-lg-1">
+                    <button type="button" class="btn btn-danger btn-sm collection-btn-delete">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endblock %}
 
 
 {% block content %}
@@ -34,7 +58,7 @@
                     <div class="card-body">
                         {{ form_rest(form) }}
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer justify-content-between">
                         <button type="submit" class="btn btn-success float-right">Valider</button>
                     </div>
                 </div>
@@ -45,5 +69,6 @@
 
     </div>
 
+    {% include '@OlixBackOffice/Include/modal.html.twig' with { title: "Chargement du formulaire" } %}
 
 {% endblock %}

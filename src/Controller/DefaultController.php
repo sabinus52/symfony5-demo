@@ -20,8 +20,8 @@ use App\Form\TestOtherType;
 use App\Form\TestSelect2Type;
 use App\Form\TestTextType;
 use App\Form\TestType;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Olix\BackOfficeBundle\Helper\AutoCompleteService;
 use PDO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -99,51 +99,23 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/addressip/ajax", name="addressip_ajax")
+     * @Route("/addressip/ajax", name="form_test_select2_ajax")
      */
-    public function getSearchIPs(Request $request, ManagerRegistry $doctrine): JsonResponse
+    public function getSearchIPs(Request $request, AutoCompleteService $autoComplete): JsonResponse
     {
-        $entityManager = $doctrine->getManager();
+        $results = $autoComplete->getResults(TestSelect2Type::class, $request);
 
-        $term = $request->get('term');
-        $page = (int) $request->get('page', 0);
+        return $this->json($results);
+    }
 
-        /** @phpstan-ignore-next-line */
-        $query = $entityManager->getRepository(AddressIP::class)->createQueryBuilder('m')
-            ->andWhere('m.ip LIKE :val')
-            ->setParameter('val', '%'.$term.'%')
-            ->orderBy('m.ip', 'ASC')
-        ;
-        if (0 === $page) {
-            $query = $query->getQuery();
-            $addressips = $query->getResult();
-        } else {
-            $query = $query->setFirstResult(($page - 1) * 10)
-                ->setMaxResults(10)
-                ->getQuery()
-            ;
+    /**
+     * @Route("/addressip/test/ajax", name="form_test_ajax")
+     */
+    public function getSearchIPs2(Request $request, AutoCompleteService $autoComplete): JsonResponse
+    {
+        $results = $autoComplete->getResults(TestType::class, $request);
 
-            $addressips = new Paginator($query, true);
-        }
-
-        $results = [];
-        foreach ($addressips as $value) {
-            $results[] = [
-                'id' => $value->getId(),
-                'text' => $value->getIp(),
-            ];
-        }
-
-        if (0 === $page) {
-            $result = $results;
-        } else {
-            $result = [
-                'results' => $results,
-                'more' => (($page * 10) < count($addressips)),
-            ];
-        }
-
-        return $this->json($result);
+        return $this->json($results);
     }
 
     /**
@@ -171,6 +143,34 @@ class DefaultController extends AbstractController
         return $this->renderForm('default/forms-test.html.twig', [
             'form' => $form,
             'result' => $result,
+        ]);
+    }
+
+    /**
+     * @Route("/forms/modal", name="forms_modal")
+     */
+    public function formModal(): Response
+    {
+        return $this->renderForm('default/forms-modal.html.twig');
+    }
+
+    /**
+     * @Route("/forms/modal-test", name="forms_modal_test")
+     */
+    public function testFormModal(Request $request): Response
+    {
+        $form = $this->createForm(TestType::class);
+        $form->remove('steps');
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash('success', 'La validation a bien été pris en compte');
+
+            return $this->redirectToRoute('forms_test');
+        }
+
+        return $this->renderForm('default/forms-test-modal.html.twig', [
+            'form' => $form,
+            'title' => 'Formulaire modal',
         ]);
     }
 

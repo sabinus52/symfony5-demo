@@ -7,13 +7,10 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {#{ encore_entry_link_tags('app') }#}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/script.js') }}"></script>
-    {#{ encore_entry_script_tags('app') }#}
 {% endblock %}
 
 {% block footer %}{% endblock %}

@@ -65,28 +65,30 @@ class ServerType extends AbstractType
                 'label' => 'Sélection IP',
                 // 'multiple' => false,
                 'required' => false,
-                'ajax_route' => 'addressip_ajax',
-                'ajax_scroll' => true,
+                'remote_route' => 'addressip_ajax',
+                'ajax_js_scroll' => true,
                 'class' => AddressIP::class,
-                'primary_key' => 'id',
-                'label_field' => 'ip',
-                'minimum_input_length' => 2,
+                'class_property' => 'ip',
+                'class_pkey' => 'id',
+                'class_label' => 'ip',
+                'js_minimum_input_length' => 2,
             ])
             ->add('addressIPs', Select2AjaxType::class, [
                 'label' => 'Sélection IPs',
                 'multiple' => true,
                 'required' => false,
-                'ajax_route' => 'addressip_ajax',
-                'ajax_scroll' => true,
+                'remote_route' => 'addressip_ajax',
+                'ajax_js_scroll' => true,
                 'class' => AddressIP::class,
-                'primary_key' => 'id',
-                'label_field' => 'ip',
-                'minimum_input_length' => 3,
+                'class_property' => 'ip',
+                'class_pkey' => 'id',
+                'class_label' => 'ip',
+                'js_minimum_input_length' => 3,
             ])
             ->add('virtual', SwitchType::class, [
                 'label' => 'Bouton swtich',
                 'required' => false,
-                'ojs_on_color' => 'indigo',
+                'js_on_color' => 'indigo',
             ])
             ->add('environment', ChoiceType::class, [
                 'label' => 'Environnement',
@@ -106,7 +108,7 @@ class ServerType extends AbstractType
                     ;
                 },
                 'constraints' => [new NotBlank()],
-                'ojs_allow_clear' => true,
+                'js_allow_clear' => true,
             ])
             ->add('state', ChoiceType::class, [
                 'label' => 'Statut',

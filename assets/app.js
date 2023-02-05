@@ -9,12 +9,9 @@
 import './styles/app.css';
 
 // start the Stimulus application
-//import './bootstrap';
+import './bootstrap';
 
 const $ = require('jquery');
-import 'admin-lte/plugins/bootstrap/js/bootstrap.bundle';
-import 'admin-lte/dist/js/adminlte';
+window.$ = window.jQuery = $;
 
-import './scripts/switch-theme';
-import 'admin-lte/dist/js/adminlte'
- 
+import './dist/olixbo.js';

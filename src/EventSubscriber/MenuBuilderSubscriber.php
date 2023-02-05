@@ -48,6 +48,10 @@ class MenuBuilderSubscriber extends MenuFactorySubscriber
                 'label' => 'Forms test',
                 'route' => 'forms_test',
             ]))
+            ->addChild(new MenuItem('form-modal', [
+                'label' => 'Forms modal',
+                'route' => 'forms_modal',
+            ]))
         ;
 
         $table = new MenuItem('table', [

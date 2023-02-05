@@ -48,8 +48,8 @@ class TestOtherType extends AbstractType
             ->add('switch', SwitchType::class, [
                 'label' => 'Bouton swtich',
                 'help' => 'Voici une aide qui pourrait t\'aider',
-                'ojs_size' => 'mini',
-                'ojs_on_color' => 'indigo',
+                'js_size' => 'mini',
+                'js_on_color' => 'indigo',
                 'data' => true,
             ])
             ->add('text', TextType::class, [
