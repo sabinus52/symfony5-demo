@@ -15,6 +15,7 @@ use App\Entity\AddressIP;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Olix\BackOfficeBundle\Form\Type\CollectionType;
 use Olix\BackOfficeBundle\Form\Type\DatePickerType;
 use Olix\BackOfficeBundle\Form\Type\Select2AjaxType;
 use Olix\BackOfficeBundle\Form\Type\Select2EntityType;
@@ -108,6 +109,20 @@ class TestType extends AbstractType
                 'label' => 'Date',
                 // 'ojs_min_date' => new \DateTime('05/05/2022'),
                 'js_calendar_weeks' => true,
+            ])
+            ->add('steps', CollectionType::class, [
+                'label' => 'Etapes de la préparation',
+                'button_label_add' => 'Nouvelle étape',
+                'entry_type' => StepType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'delete_empty' => true,
+                'block_name' => 'recipe_step', // Custom form => _recipe_recipe_steps_row
+                'attr' => [
+                    'class' => 'collection-widget',
+                ],
             ])
         ;
     }

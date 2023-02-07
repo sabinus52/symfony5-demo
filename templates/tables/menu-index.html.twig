@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Gérer les menus{% endblock %}
+
+{% block content_title %}<i class="far fa-bars"></i> Gérer les menus{% endblock %}
+{% block content_subtitle %}{% endblock %}
+
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card card-success card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Liste des menus</h3>
+                        <div class="card-tools"><a href="{{ path('table_menu_create') }}" class="btn btn-sm btn-success" data-toggle="olix-modal" data-target="#modalOlix"><i class="fas fa-plus"></i> <span class="d-none d-md-inline">Ajouter un menu</span></a></div>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in menus %}
+                                <tr>
+                                    <td class="align-middle">{{ item.label }}</td>
+                                    <td class="text-right align-middle">
+                                        <a href="{{ path('table_menu_edit', {'id': item.id}) }}" class="btn btn-sm btn-info" data-toggle="olix-modal" data-target="#modalOlix"><i class="fas fa-edit"></i><span class="d-none d-md-inline">&nbsp;Modifier<span></a>
+                                        <a href="{{ path('table_menu_remove', {'id': item.id}) }}" class="btn btn-sm btn-danger" data-toggle="olix-modal" data-target="#modalOlix"><i class="fas fa-trash"></i><span class="d-none d-md-inline">&nbsp;Supprimer<span></a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="3">Aucun éléments dans la table</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    {% include '@OlixBackOffice/Include/modal.html.twig' with { title: "Chargement du formulaire" } %}
+
+{% endblock %}

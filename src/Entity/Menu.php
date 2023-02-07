@@ -13,6 +13,7 @@ namespace App\Entity;
 
 use App\Repository\MenuRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Classe de l'entité Menu.
@@ -33,14 +34,21 @@ class Menu
     /**
      * @var string
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank
      */
     private $label;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", length=20, nullable=true)
+     * @Assert\NotBlank
      */
     private $icon;
+
+    public function __toString(): string
+    {
+        return ($this->label) ?: '';
+    }
 
     public function getId(): ?int
     {

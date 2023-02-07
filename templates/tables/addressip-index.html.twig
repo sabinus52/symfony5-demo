@@ -4,12 +4,6 @@
 {% block content_title %}Adresses IP{% endblock %}
 {% block content_subtitle %}Liste des IPs{% endblock %}
 
-{% block javascripts %}
-{{ parent()}}
-{{ olixbo_datatable_js(datatable) }}
-{% endblock %}
-
-
 {% block content %}
 
     <div class="container-fluid">
@@ -20,10 +14,13 @@
                 <div class="card card-blue">
                     <div class="card-header">
                         <h3 class="card-title">Liste des IPs</h3>
-                        <div class="card-tools"><a href="{{ path('table_adrip__create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Ajouter</a></div>
+                        <div class="card-tools"><a href="{{ path('table_adrip__create') }}" class="btn btn-sm btn-success" data-toggle="olix-modal" data-target="#modalOlix"><i class="fas fa-plus"></i> Ajouter</a></div>
                     </div>
                     <div class="card-body">
-                        {{ olixbo_datatable_html(datatable) }}
+                        <div id="olixDataTables">Loading...</div>
+                        <script>
+                            var olixDataTables = {{ datatable_settings(datatable) }};
+                        </script>
                     </div>
                 </div>
 
@@ -32,6 +29,6 @@
 
     </div>
 
-    {% include '@OlixBackOffice/Include/modal-delete.html.twig' with {'element': 'cette IP'} %}
+    {% include '@OlixBackOffice/Include/modal.html.twig' with { title: "Chargement du formulaire" } %}
 
 {% endblock %}

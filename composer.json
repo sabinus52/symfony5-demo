@@ -49,6 +49,7 @@
     "require-dev": {
         "almasaeed2010/adminlte": "^3.2",
         "friendsofsymfony/jsrouting-bundle": "^2.0|^3.0",
+        "omines/datatables-bundle": "^0.5.5",
         "symfony/debug-bundle": "5.4.*",
         "symfony/maker-bundle": "^1.0",
         "symfony/stopwatch": "5.4.*",
