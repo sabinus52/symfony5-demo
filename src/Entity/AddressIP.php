@@ -13,19 +13,15 @@ namespace App\Entity;
 
 use App\Repository\AddressIPRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * AddressIP.
  *
- * @ORM\Table(name="addressip")
- *
- * @ORM\Entity(repositoryClass=AddressIPRepository::class)
- * UniqueEntity(fields="ip", message="Cette adresse IP est déjà utilisée, merci d'en choisir une autre")
- *
  * @SuppressWarnings(PHPMD.ShortVariable)
  */
+#[ORM\Table(name: 'addressip')]
+#[ORM\Entity(repositoryClass: AddressIPRepository::class)]
 class AddressIP implements \Stringable
 {
     /**
@@ -50,90 +46,75 @@ class AddressIP implements \Stringable
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id; /** @phpstan-ignore-line */
-
     /**
      * Adresse IP.
      *
      * @var string
-     *
-     * @ORM\Column(name="ip", type="string", unique=true, length=20)
-     *
-     * @Assert\Ip
      */
+    #[ORM\Column(name: 'ip', type: 'string', unique: true, length: 20)]
+    #[Assert\Ip]
     private $ip;
 
     /**
      * Hostname correspondant à l'IP.
      *
      * @var string
-     *
-     * @ORM\Column(name="hostname", type="string", nullable=true, length=255)
-     *
-     * @Assert\Regex("/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/")
      */
+    #[ORM\Column(name: 'hostname', type: 'string', nullable: true, length: 255)]
+    #[Assert\Regex('/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/')]
     private $hostname;
 
     /**
      * Numéro pour le tri.
      *
      * @var int
-     *
-     * @ORM\Column(name="number", type="smallint")
      */
+    #[ORM\Column(name: 'number', type: 'smallint')]
     private $number;
 
     /**
      * Statut si alloué ou pas.
      *
      * @var int
-     *
-     * @ORM\Column(name="state", type="integer")
      */
+    #[ORM\Column(name: 'state', type: 'integer')]
     private $state;
 
     /**
      * Notes et commentaire.
      *
      * @var string
-     *
-     * @ORM\Column(name="comment", type="string", length=2000, nullable=true)
      */
+    #[ORM\Column(name: 'comment', type: 'string', length: 2000, nullable: true)]
     private $comment;
 
     /**
      * Si reponse au ping au pas.
      *
      * @var bool
-     *
-     * @ORM\Column(name="ping", type="boolean", options={"default": false})
      */
+    #[ORM\Column(name: 'ping', type: 'boolean', options: ['default' => false])]
     private $ping;
 
     /**
      * Si reponse au ping au pas avec le hostname.
      *
      * @var bool
-     *
-     * @ORM\Column(name="fqdn", type="boolean", options={"default": false})
      */
+    #[ORM\Column(name: 'fqdn', type: 'boolean', options: ['default' => false])]
     private $fqdn;
 
     /**
      * Liaison avec les serveurs //, cascade={"persist"}, mappedBy="addressIPs".
      *
      * @var Server
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Server", cascade={"persist"}, inversedBy="addressIPs")
-     * ORM\JoinColumn(referencedColumnName="toto")
      */
+    #[ORM\ManyToOne(targetEntity: Server::class, cascade: ['persist'], inversedBy: 'addressIPs')]
     private $server;
 
     /**
@@ -400,8 +381,6 @@ class AddressIP implements \Stringable
 
     /**
      * Set server.
-     *
-     * @param Server $server
      *
      * @return AddressIP
      */

@@ -18,39 +18,30 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Classe de l'entité Menu.
  *
- * @ORM\Entity(repositoryClass=MenuRepository::class)
- *
  * @SuppressWarnings(PHPMD.ShortVariable)
  */
+#[ORM\Entity(repositoryClass: MenuRepository::class)]
 class Menu implements \Stringable
 {
     /**
      * @var int
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue
-     *
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id; /** @phpstan-ignore-line */
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=50)
-     *
-     * @Assert\NotBlank
      */
+    #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank]
     private $label;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(type="string", length=20, nullable=true)
-     *
-     * @Assert\NotBlank
      */
+    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    #[Assert\NotBlank]
     private $icon;
 
     public function __toString(): string

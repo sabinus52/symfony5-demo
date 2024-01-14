@@ -30,9 +30,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TablesServerController extends AbstractController
 {
-    /**
-     * @Route("/tables/server/list", name="table_server__list")
-     */
+    #[Route(path: '/tables/server/list', name: 'table_server__list')]
     public function index(Request $request, DataTableFactory $factory): Response
     {
         $datatable = $factory->createFromType(ServerTableType::class, [], [
@@ -50,9 +48,7 @@ class TablesServerController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("tables/addressip/ajax", name="addressip_ajax")
-     */
+    #[Route(path: 'tables/addressip/ajax', name: 'addressip_ajax')]
     public function getSearchIPs(Request $request, AutoCompleteService $autoComplete): JsonResponse
     {
         $results = $autoComplete->getResults(ServerType::class, $request);
@@ -60,9 +56,7 @@ class TablesServerController extends AbstractController
         return $this->json($results);
     }
 
-    /**
-     * @Route("/tables/server/create", name="table_server__create", methods={"GET", "POST"})
-     */
+    #[Route(path: '/tables/server/create', name: 'table_server__create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $server = new Server();
@@ -85,9 +79,8 @@ class TablesServerController extends AbstractController
 
     /**
      * Update server.
-     *
-     * @Route("/tables/server/edit/{id}", name="table_server__edit")
      */
+    #[Route(path: '/tables/server/edit/{id}', name: 'table_server__edit')]
     public function update(Request $request, Server $server, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ServerType::class, $server);
@@ -106,9 +99,7 @@ class TablesServerController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/tables/server/delete/{id}", name="table_server__delete")
-     */
+    #[Route(path: '/tables/server/delete/{id}', name: 'table_server__delete')]
     public function remove(Request $request, Server $server, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createFormBuilder()->getForm();

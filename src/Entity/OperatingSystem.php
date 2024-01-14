@@ -16,11 +16,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Entité des systèmes d'exploitation.
- *
- * @ORM\Table(name="os")
- *
- * @ORM\Entity
  */
+#[ORM\Table(name: 'os')]
+#[ORM\Entity]
 class OperatingSystem implements \Stringable
 {
     /**
@@ -63,110 +61,89 @@ class OperatingSystem implements \Stringable
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id; /** @phpstan-ignore-line */
-
     /**
      * Nom du fabriquant.
      *
      * @var string
-     *
-     * @ORM\Column(name="vendor", type="string", length=20)
-     *
-     * @Assert\NotBlank
      */
+    #[ORM\Column(name: 'vendor', type: 'string', length: 20)]
+    #[Assert\NotBlank]
     private $vendor;
 
     /**
      * Famille de l'OS (Linux Windows).
      *
      * @var string
-     *
-     * @ORM\Column(name="family", type="string", length=20)
-     *
-     * @Assert\NotBlank
      */
+    #[ORM\Column(name: 'family', type: 'string', length: 20)]
+    #[Assert\NotBlank]
     private $family;
 
     /**
      * Nom de l'OS (SLES 11, Server 2008).
      *
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=50)
-     *
-     * @Assert\NotBlank
-     *
-     * @Assert\Length(max="50", maxMessage="Taille maximum de {{ limit }} caractères")
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: '50', maxMessage: 'Taille maximum de {{ limit }} caractères')]
     private $name;
 
     /**
      * Servicepack de l'OS (SP1 SP2).
      *
      * @var string
-     *
-     * @ORM\Column(name="service_pack", type="string", length=10, nullable=true)
-     *
-     * @Assert\Length(max="10", maxMessage="Taille maximum de {{ limit }} caractères")
      */
+    #[ORM\Column(name: 'service_pack', type: 'string', length: 10, nullable: true)]
+    #[Assert\Length(max: '10', maxMessage: 'Taille maximum de {{ limit }} caractères')]
     private $servicePack;
 
     /**
      * Version de l'OS.
      *
      * @var string
-     *
-     * @ORM\Column(name="version", type="string", length=20, nullable=true)
-     *
-     * @Assert\Length(max="20", maxMessage="Taille maximum de {{ limit }} caractères")
      */
+    #[ORM\Column(name: 'version', type: 'string', length: 20, nullable: true)]
+    #[Assert\Length(max: '20', maxMessage: 'Taille maximum de {{ limit }} caractères')]
     private $version;
 
     /**
      * Nombre de bus de l'OS.
      *
      * @var int
-     *
-     * @ORM\Column(name="bits", type="smallint")
-     *
-     * @Assert\NotBlank
      */
+    #[ORM\Column(name: 'bits', type: 'smallint')]
+    #[Assert\NotBlank]
     private $bits;
 
     /**
      * Infos additionnel.
      *
      * @var string
-     *
-     * @ORM\Column(name="additional", type="string", length=50, nullable=true)
-     *
-     * @Assert\Length(max="50", maxMessage="Taille maximum de {{ limit }} caractères")
      */
+    #[ORM\Column(name: 'additional', type: 'string', length: 50, nullable: true)]
+    #[Assert\Length(max: '50', maxMessage: 'Taille maximum de {{ limit }} caractères')]
     private $additional;
 
     /**
      * Fin du support.
      *
      * @var \DateTime
-     *
-     * @ORM\Column(name="support_end", type="date", nullable=true)
      */
+    #[ORM\Column(name: 'support_end', type: 'date', nullable: true)]
     private $supportEnd;
 
     /**
      * Icone.
      *
      * @var string
-     *
-     * @ORM\Column(name="icon", type="string", length=20, nullable=true)
      */
+    #[ORM\Column(name: 'icon', type: 'string', length: 20, nullable: true)]
     private $icon;
 
     /**

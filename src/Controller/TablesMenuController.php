@@ -27,9 +27,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TablesMenuController extends AbstractController
 {
-    /**
-     * @Route("/tables/menus", name="table_menu_list")
-     */
+    #[Route(path: '/tables/menus', name: 'table_menu_list')]
     public function index(MenuRepository $repository): Response
     {
         return $this->render('tables/menu-index.html.twig', [
@@ -37,9 +35,7 @@ class TablesMenuController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/tables/menus/create", name="table_menu_create", methods={"GET", "POST"})
-     */
+    #[Route(path: '/tables/menus/create', name: 'table_menu_create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $menu = new Menu();
@@ -62,9 +58,7 @@ class TablesMenuController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/tables/menus/edit/{id}", name="table_menu_edit", methods={"GET", "POST"})
-     */
+    #[Route(path: '/tables/menus/edit/{id}', name: 'table_menu_edit', methods: ['GET', 'POST'])]
     public function update(Request $request, Menu $menu, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(MenuType::class, $menu);
@@ -83,9 +77,7 @@ class TablesMenuController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/tables/menus/remove/{id}", name="table_menu_remove")
-     */
+    #[Route(path: '/tables/menus/remove/{id}', name: 'table_menu_remove')]
     public function remove(Request $request, Menu $menu, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createFormBuilder()->getForm();

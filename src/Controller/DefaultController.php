@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\AddressIP;
 use App\Entity\Server;
 use App\Form\TestButtonType;
 use App\Form\TestChoiceType;
@@ -38,9 +37,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DefaultController extends AbstractController
 {
-    /**
-     * @Route("/", name="home")
-     */
+    #[Route(path: '/', name: 'home')]
     public function index(): Response
     {
         $options = $this->getParameter('olix_back_office');
@@ -50,9 +47,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/forms/vertical", name="forms_vertical")
-     */
+    #[Route(path: '/forms/vertical', name: 'forms_vertical')]
     public function viewFormVertical(): Response
     {
         $formText = $this->createForm(TestTextType::class);
@@ -74,9 +69,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/forms/horizontal", name="forms_horizontal")
-     */
+    #[Route(path: '/forms/horizontal', name: 'forms_horizontal')]
     public function viewFormHorizontal(): Response
     {
         $formText = $this->createForm(TestTextType::class);
@@ -98,9 +91,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/addressip/ajax", name="form_test_select2_ajax")
-     */
+    #[Route(path: '/addressip/ajax', name: 'form_test_select2_ajax')]
     public function getSearchIPs(Request $request, AutoCompleteService $autoComplete): JsonResponse
     {
         $results = $autoComplete->getResults(TestSelect2Type::class, $request);
@@ -108,9 +99,7 @@ class DefaultController extends AbstractController
         return $this->json($results);
     }
 
-    /**
-     * @Route("/addressip/test/ajax", name="form_test_ajax")
-     */
+    #[Route(path: '/addressip/test/ajax', name: 'form_test_ajax')]
     public function getSearchIPs2(Request $request, AutoCompleteService $autoComplete): JsonResponse
     {
         $results = $autoComplete->getResults(TestType::class, $request);
@@ -118,9 +107,7 @@ class DefaultController extends AbstractController
         return $this->json($results);
     }
 
-    /**
-     * @Route("/forms/test", name="forms_test")
-     */
+    #[Route(path: '/forms/test', name: 'forms_test')]
     public function testForm(Request $request): Response
     {
         $result = null;
@@ -146,17 +133,13 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/forms/modal", name="forms_modal")
-     */
+    #[Route(path: '/forms/modal', name: 'forms_modal')]
     public function formModal(): Response
     {
         return $this->renderForm('default/forms-modal.html.twig');
     }
 
-    /**
-     * @Route("/forms/modal-test", name="forms_modal_test")
-     */
+    #[Route(path: '/forms/modal-test', name: 'forms_modal_test')]
     public function testFormModal(Request $request): Response
     {
         $form = $this->createForm(TestType::class);
@@ -174,9 +157,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/autocomplete", options={"expose": true}, name="sidebar_autocomplete")
-     */
+    #[Route(path: '/autocomplete', options: ['expose' => true], name: 'sidebar_autocomplete')]
     public function autocompleteSideBar(Request $request, ServerRepository $repository): JsonResponse
     {
         $term = $request->get('query');
@@ -204,9 +185,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/toto", name="toto")
-     */
+    #[Route(path: '/toto', name: 'toto')]
     public function toto(): Response
     {
         $options = $this->getParameter('olix_back_office');
@@ -216,9 +195,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/link21", name="home21")
-     */
+    #[Route(path: '/link21', name: 'home21')]
     public function index21(): Response
     {
         $options = $this->getParameter('olix_back_office');
@@ -228,9 +205,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/link22", name="home22")
-     */
+    #[Route(path: '/link22', name: 'home22')]
     public function index22(): Response
     {
         $options = $this->getParameter('olix_back_office');
@@ -240,9 +215,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/link23", name="home23")
-     */
+    #[Route(path: '/link23', name: 'home23')]
     public function index23(): Response
     {
         $options = $this->getParameter('olix_back_office');
@@ -252,9 +225,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/link31", name="home31")
-     */
+    #[Route(path: '/link31', name: 'home31')]
     public function index31(): Response
     {
         $options = $this->getParameter('olix_back_office');
@@ -264,9 +235,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/link32", name="home32")
-     */
+    #[Route(path: '/link32', name: 'home32')]
     public function index32(): Response
     {
         $options = $this->getParameter('olix_back_office');
@@ -276,9 +245,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/notif/{id}", name="notif_one")
-     */
+    #[Route(path: '/notif/{id}', name: 'notif_one')]
     public function notifOne(mixed $id): Response
     {
         $options = $this->getParameter('olix_back_office');
@@ -289,9 +256,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/notif/all", name="notif_all")
-     */
+    #[Route(path: '/notif/all', name: 'notif_all')]
     public function notifAll(): Response
     {
         $options = $this->getParameter('olix_back_office');

@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Constants\Environment;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -20,14 +19,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Entité des serveurs.
- *
- * @ORM\Table(name="server")
- *
- * @ORM\Entity(repositoryClass="App\Repository\ServerRepository")
- *
- * @UniqueEntity(fields="hostname", message="Ce Hostname est déjà utilisé, merci d'en choisir un autre")
- * @UniqueEntity(fields="addrip", message="Cette IP est déjà utilisée, merci d'en choisir un autre")
  */
+#[ORM\Table(name: 'server')]
+#[ORM\Entity(repositoryClass: \App\Repository\ServerRepository::class)]
+#[UniqueEntity(fields: 'hostname', message: "Ce Hostname est déjà utilisé, merci d'en choisir un autre")]
+#[UniqueEntity(fields: 'addrip', message: "Cette IP est déjà utilisée, merci d'en choisir un autre")]
 class Server implements \Stringable
 {
     /**
@@ -50,107 +46,87 @@ class Server implements \Stringable
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id; /** @phpstan-ignore-line */
-
     /**
      * Nom court local du serveur.
      *
      * @var string
-     *
-     * @ORM\Column(name="hostname", type="string", unique=true, length=50)
-     *
-     * @Assert\NotBlank
-     *
-     * @Assert\Regex("/^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*)$/")
      */
+    #[ORM\Column(name: 'hostname', type: 'string', unique: true, length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Regex('/^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*)$/')]
     private $hostname;
 
     /**
      * Valeur du FQDN = Reverse du DNS.
      *
      * @var string
-     *
-     * @ORM\Column(name="fqdn", type="string", unique=true, length=50)
-     *
-     * @Assert\NotBlank
-     *
-     * @Assert\Regex("/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/")
      */
+    #[ORM\Column(name: 'fqdn', type: 'string', unique: true, length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Regex('/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/')]
     private $fqdn;
 
     /**
      * Liaison avec les Adresses IPs.
      *
      * @var AddressIP
-     *
-     * @ORM\OneToOne(targetEntity="App\Entity\AddressIP")
      */
+    #[ORM\OneToOne(targetEntity: AddressIP::class)]
     private $addrip;
 
     /**
      * Liaison avec les serveurs.
      *
      * @var ArrayCollection<AddressIP>
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\AddressIP", cascade={"persist"}, mappedBy="server")
      */
+    #[ORM\OneToMany(targetEntity: AddressIP::class, cascade: ['persist'], mappedBy: 'server')]
     private $addressIPs;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="virtual", type="boolean")
      */
+    #[ORM\Column(name: 'virtual', type: 'boolean')]
     private $virtual;
 
     /**
      * @var Environment
-     *
-     * @ORM\Column(name="environment", type="environment", length=1)
      */
+    #[ORM\Column(name: 'environment', type: 'environment', length: 1)]
     private $environment;
 
     /**
      * Liaison avec les OS.
      *
      * @var OperatingSystem
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\OperatingSystem")
-     *
-     * @ORM\JoinColumn(name="os_id", referencedColumnName="id")
-     *
-     * @Assert\NotBlank
      */
+    #[ORM\ManyToOne(targetEntity: OperatingSystem::class)]
+    #[ORM\JoinColumn(name: 'os_id', referencedColumnName: 'id')]
+    #[Assert\NotBlank]
     private $operatingSystem;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="comment", type="string", length=500, nullable=true)
      */
+    #[ORM\Column(name: 'comment', type: 'string', length: 500, nullable: true)]
     private $comment;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="state", type="smallint", nullable=true)
      */
+    #[ORM\Column(name: 'state', type: 'smallint', nullable: true)]
     private $state;
 
     /**
      * Date de la suppression du serveur.
      *
      * @var \DateTime
-     *
-     * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      */
+    #[ORM\Column(name: 'deleted_at', type: 'datetime', nullable: true)]
     private $deletedAt;
 
     /**
@@ -276,8 +252,6 @@ class Server implements \Stringable
 
     /**
      * Set addrip.
-     *
-     * @param AddressIP $addrip
      *
      * @return Server
      */

@@ -30,9 +30,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TablesAddressIPController extends AbstractController
 {
-    /**
-     * @Route("/tables/addressip/list", name="table_adrip__list")
-     */
+    #[Route(path: '/tables/addressip/list', name: 'table_adrip__list')]
     public function index(Request $request, DataTableFactory $factory): Response
     {
         $datatable = $factory->create()
@@ -63,9 +61,7 @@ class TablesAddressIPController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/tables/addressip/create", name="table_adrip__create", methods={"GET", "POST"})
-     */
+    #[Route(path: '/tables/addressip/create', name: 'table_adrip__create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $adrip = new AddressIP();
@@ -88,9 +84,8 @@ class TablesAddressIPController extends AbstractController
 
     /**
      * Update server.
-     *
-     * @Route("/tables/addressip/edit/{id}", name="table_adrip__edit")
      */
+    #[Route(path: '/tables/addressip/edit/{id}', name: 'table_adrip__edit')]
     public function update(Request $request, AddressIP $adrip, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(AddressIPType::class, $adrip);
@@ -109,9 +104,7 @@ class TablesAddressIPController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/tables/addressip/delete/{id}", name="table_adrip__delete")
-     */
+    #[Route(path: '/tables/addressip/delete/{id}', name: 'table_adrip__delete')]
     public function remove(Request $request, AddressIP $adrip, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createFormBuilder()->getForm();
