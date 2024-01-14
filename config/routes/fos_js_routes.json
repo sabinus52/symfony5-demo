@@ -1,1 +1,1 @@
-{"base_url":"","routes":{"sidebar_autocomplete":{"tokens":[["variable","\/","[^\/]++","term",true],["text","\/autocomplete"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":[],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":""}
+{"base_url":"","routes":{"sidebar_autocomplete":{"tokens":[["text","\/autocomplete"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":[],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":""}
