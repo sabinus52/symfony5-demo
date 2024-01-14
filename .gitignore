@@ -24,4 +24,5 @@ yarn-error.log
 /DEVELOP*.md
 /*.code-workspace
 /*.conf
+/assets/dist
 ###< My configuration ###

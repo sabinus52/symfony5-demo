@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\AddressIP;
+use App\Entity\Server;
 use App\Form\TestButtonType;
 use App\Form\TestChoiceType;
 use App\Form\TestDateTimePickerType;
@@ -20,9 +21,9 @@ use App\Form\TestOtherType;
 use App\Form\TestSelect2Type;
 use App\Form\TestTextType;
 use App\Form\TestType;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\ServerRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Olix\BackOfficeBundle\Helper\AutoCompleteService;
-use PDO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -175,24 +176,33 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/autocomplete/{term}", options={"expose": true}, name="autocomplete-ips")
+     * @Route("/autocomplete", options={"expose": true}, name="sidebar_autocomplete")
      */
-    public function autocompleteIP(Request $request, ManagerRegistry $doctrine): JsonResponse
+    public function autocompleteSideBar(Request $request, ServerRepository $repository): JsonResponse
     {
-        $entityManager = $doctrine->getManager();
-        $term = $request->get('term');
+        $term = $request->get('query');
 
-        /** @phpstan-ignore-next-line */
-        $query = $entityManager->getRepository(AddressIP::class)->createQueryBuilder('m')
-            ->andWhere('m.ip LIKE :val')
+        /** @var Server[] $items */
+        $items = $repository->createQueryBuilder('m')
+            ->andWhere('m.hostname LIKE :val')
             ->setParameter('val', '%'.$term.'%')
-            ->orderBy('m.ip', 'ASC')
+            ->orderBy('m.hostname', 'ASC')
             ->getQuery()
+            ->getResult()
         ;
 
-        $result = $query->getResult(PDO::FETCH_ASSOC);
+        $result = [];
+        foreach ($items as $item) {
+            $result[] = [
+                'value' => $item->getFqdn(),
+                'data' => $item->getId(),
+            ];
+        }
 
-        return $this->json($result);
+        return $this->json([
+            'query' => $term,
+            'suggestions' => $result,
+        ]);
     }
 
     /**

@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "admin-lte": "^3.2.0",
+        "devbridge-autocomplete": "^1.4.11",
         "jquery": "^3.6.0"
     }
 }
