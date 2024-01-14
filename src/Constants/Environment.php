@@ -16,20 +16,20 @@ namespace App\Constants;
  *
  * @author Sabinus52 <sabinus52@gmail.com>
  */
-class Environment
+class Environment implements \Stringable
 {
-    public const PRODUCTION = 'X';
-    public const MIXTEPROD = 'Z';
-    public const PREPRODUCTION = 'B';
-    public const QUALIFICATION = 'Q';
-    public const DEVELOPPEMENT = 'D';
-    public const INTEGRATION = 'I';
-    public const FORMATION = 'F';
-    public const RECETTE = 'R';
-    public const BACASABLE = 'S';
-    public const TEST = 'T';
-    public const HORSPROD = 'Y';
-    public const SECOURS = 'H';
+    final public const PRODUCTION = 'X';
+    final public const MIXTEPROD = 'Z';
+    final public const PREPRODUCTION = 'B';
+    final public const QUALIFICATION = 'Q';
+    final public const DEVELOPPEMENT = 'D';
+    final public const INTEGRATION = 'I';
+    final public const FORMATION = 'F';
+    final public const RECETTE = 'R';
+    final public const BACASABLE = 'S';
+    final public const TEST = 'T';
+    final public const HORSPROD = 'Y';
+    final public const SECOURS = 'H';
 
     /**
      * Liste des environnements.
@@ -77,8 +77,6 @@ class Environment
     /**
      * Retourne la liste pour le filtre dasn les Datatables.
      *
-     * @param string $field
-     *
      * @return array<string>
      */
     public static function getFilters(string $field = 'label'): array
@@ -122,7 +120,7 @@ class Environment
         return '<span class="badge bg-'.$this->getColor().'">'.$this->getLabel().'</span>';
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getLabel();
     }

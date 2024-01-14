@@ -42,9 +42,6 @@ class ServerType extends AbstractType
      */
     protected $doctrine;
 
-    /**
-     * @param ManagerRegistry $doctrine
-     */
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
@@ -101,12 +98,9 @@ class ServerType extends AbstractType
                 'required' => false,
                 'multiple' => false,
                 'class' => OperatingSystem::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('os')
-                        ->orderBy('os.name', 'ASC')
-                        ->addOrderBy('os.version', 'ASC')
-                    ;
-                },
+                'query_builder' => static fn (EntityRepository $er) => $er->createQueryBuilder('os')
+                    ->orderBy('os.name', 'ASC')
+                    ->addOrderBy('os.version', 'ASC'),
                 'constraints' => [new NotBlank()],
                 'js_allow_clear' => true,
             ])

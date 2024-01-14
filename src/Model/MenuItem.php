@@ -27,7 +27,7 @@ class MenuItem extends MenuItemModel
     public function __construct(string $code, array $options = [])
     {
         parent::__construct($code, $options);
-        $this->color = (isset($options['color'])) ? $options['color'] : null;
+        $this->color = $options['color'] ?? null;
     }
 
     /**
@@ -39,8 +39,6 @@ class MenuItem extends MenuItemModel
     }
 
     /**
-     * @param string $color
-     *
      * @return MenuItemInterface
      */
     public function setColor(string $color): MenuItemInterface

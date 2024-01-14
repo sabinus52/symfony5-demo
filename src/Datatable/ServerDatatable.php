@@ -30,7 +30,7 @@ class ServerDatatable extends AbstractDatatable
 {
     public function getLineFormatter()
     {
-        $formatter = function ($row) {
+        return static function ($row) {
             // $row['os'] = 'x';
             if (isset($row['operatingSystem']['name'])) {
                 $row['os'] = $row['operatingSystem']['name'].' ('.$row['operatingSystem']['bits'].') '.$row['operatingSystem']['version'].' '.$row['operatingSystem']['additional'];
@@ -39,8 +39,6 @@ class ServerDatatable extends AbstractDatatable
 
             return $row;
         };
-
-        return $formatter;
     }
 
     /**

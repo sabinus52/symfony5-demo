@@ -30,9 +30,6 @@ class NotificationsSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param NotificationsEvent $event
-     */
     public function onNotifications(NotificationsEvent $event): void
     {
         // Déclaration des routes

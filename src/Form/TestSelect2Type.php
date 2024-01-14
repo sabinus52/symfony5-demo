@@ -66,11 +66,8 @@ class TestSelect2Type extends AbstractType
                 'label' => 'Sélection users',
                 'multiple' => false,
                 'class' => User::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.username', 'ASC')
-                    ;
-                },
+                'query_builder' => static fn (EntityRepository $er) => $er->createQueryBuilder('u')
+                    ->orderBy('u.username', 'ASC'),
                 'choice_label' => 'username',
             ])
             ->add('ajax_repo', Select2AjaxType::class, [

@@ -22,7 +22,6 @@ use App\Form\TestSelect2Type;
 use App\Form\TestTextType;
 use App\Form\TestType;
 use App\Repository\ServerRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Olix\BackOfficeBundle\Helper\AutoCompleteService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -279,10 +278,8 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/notif/{id}", name="notif_one")
-     *
-     * @param mixed $id
      */
-    public function notifOne($id): Response
+    public function notifOne(mixed $id): Response
     {
         $options = $this->getParameter('olix_back_office');
 

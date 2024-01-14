@@ -19,11 +19,12 @@ use Doctrine\DBAL\Types\Type;
  * EnvironmentType.
  *
  * @author Sabinus52 <sabinus52@gmail.com>
+ *
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class EnvironmentType extends Type
 {
-    public const TYPE = 'environment';
+    final public const TYPE = 'environment';
 
     /**
      * {@inheritdoc}

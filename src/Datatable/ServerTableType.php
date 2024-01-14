@@ -66,12 +66,12 @@ class ServerTableType implements DataTableTypeInterface
                 'label' => 'OS',
                 'field' => 'operatingSystem.name',
                 'searchable' => true,
-                'render' => fn ($value, $context) => sprintf('%s (%s) %s %s', $value, $context->getOperatingSystem()->getBits(), $context->getOperatingSystem()->getVersion(), $context->getOperatingSystem()->getAdditional()),
+                'render' => static fn ($value, $context) => sprintf('%s (%s) %s %s', $value, $context->getOperatingSystem()->getBits(), $context->getOperatingSystem()->getVersion(), $context->getOperatingSystem()->getAdditional()),
             ])
             ->add('state', TextColumn::class, [
                 'label' => 'Statut',
                 'raw' => true,
-                'data' => fn ($row) => sprintf('<b>%s</b>', $row->getStateLabel()),
+                'data' => static fn ($row) => sprintf('<b>%s</b>', $row->getStateLabel()),
             ])
             ->add('deletedAt', DateTimeColumn::class, [
                 'label' => 'Supprimé',

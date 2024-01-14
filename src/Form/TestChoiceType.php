@@ -61,7 +61,6 @@ class TestChoiceType extends AbstractType
                 'multiple' => true,
                 'choices' => self::$choices,
             ])
-
         ;
     }
 

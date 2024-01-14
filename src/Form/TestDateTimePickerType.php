@@ -32,8 +32,8 @@ class TestDateTimePickerType extends AbstractType
             ->add('datetime', DateTimePickerType::class, [
                 'label' => 'Date et heure',
                 // 'ojs_min_date' => new DateTime('05/05/2022'),
-                'js_default_date' => new DateTime('2022-05-10'),
-                'js_disabled_dates' => [new DateTime('2022-05-13'), new DateTime('2022-05-15')],
+                'js_default_date' => new \DateTime('2022-05-10'),
+                'js_disabled_dates' => [new \DateTime('2022-05-13'), new \DateTime('2022-05-15')],
                 // 'ojs_side_by_side' => true,
                 'js_days_of_week_disabled' => [0, 6],
             ])

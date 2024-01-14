@@ -22,18 +22,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Entité des serveurs.
  *
  * @ORM\Table(name="server")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\ServerRepository")
+ *
  * @UniqueEntity(fields="hostname", message="Ce Hostname est déjà utilisé, merci d'en choisir un autre")
  * @UniqueEntity(fields="addrip", message="Cette IP est déjà utilisée, merci d'en choisir un autre")
  */
-class Server
+class Server implements \Stringable
 {
     /**
      * Constantes des différents statuts.
      */
-    public const STATE_OFF = 0;
-    public const STATE_ON = 1;
-    public const STATE_DELETED = 9;
+    final public const STATE_OFF = 0;
+    final public const STATE_ON = 1;
+    final public const STATE_DELETED = 9;
 
     /**
      * Liste des différents statuts.
@@ -50,7 +52,9 @@ class Server
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id; /** @phpstan-ignore-line */
@@ -61,7 +65,9 @@ class Server
      * @var string
      *
      * @ORM\Column(name="hostname", type="string", unique=true, length=50)
+     *
      * @Assert\NotBlank
+     *
      * @Assert\Regex("/^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*)$/")
      */
     private $hostname;
@@ -72,7 +78,9 @@ class Server
      * @var string
      *
      * @ORM\Column(name="fqdn", type="string", unique=true, length=50)
+     *
      * @Assert\NotBlank
+     *
      * @Assert\Regex("/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/")
      */
     private $fqdn;
@@ -115,7 +123,9 @@ class Server
      * @var OperatingSystem
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\OperatingSystem")
+     *
      * @ORM\JoinColumn(name="os_id", referencedColumnName="id")
+     *
      * @Assert\NotBlank
      */
     private $operatingSystem;
@@ -137,7 +147,7 @@ class Server
     /**
      * Date de la suppression du serveur.
      *
-     * @var DateTime
+     * @var \DateTime
      *
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      */
@@ -150,7 +160,7 @@ class Server
      *
      * @return array<mixed>
      */
-    public static function getStates(?string $field = null): array
+    public static function getStates(string $field = null): array
     {
         if (!$field) {
             return self::$states;
@@ -209,8 +219,6 @@ class Server
     /**
      * Set hostname.
      *
-     * @param string $hostname
-     *
      * @return Server
      */
     public function setHostname(string $hostname): self
@@ -247,8 +255,6 @@ class Server
     /**
      * Set fqdn.
      *
-     * @param string $fqdn
-     *
      * @return Server
      */
     public function setFqdn(string $fqdn): self
@@ -275,7 +281,7 @@ class Server
      *
      * @return Server
      */
-    public function setAddrip(?AddressIP $addrip = null): self
+    public function setAddrip(AddressIP $addrip = null): self
     {
         $this->addrip = $addrip;
 
@@ -295,8 +301,6 @@ class Server
     /**
      * Add addressIPs.
      *
-     * @param AddressIP $addressIPs
-     *
      * @return Server
      */
     public function addAddressIP(AddressIP $addressIPs): self
@@ -310,8 +314,6 @@ class Server
 
     /**
      * Remove addressIPs.
-     *
-     * @param AddressIP $addressIPs
      */
     public function removeAddressIP(AddressIP $addressIPs): void
     {
@@ -331,11 +333,11 @@ class Server
     /**
      * Set deletedAt.
      *
-     * @param DateTime $deletedAt
+     * @param \DateTime $deletedAt
      *
      * @return Server
      */
-    public function setDeletedAt(?DateTime $deletedAt): self
+    public function setDeletedAt(?\DateTime $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 
@@ -345,17 +347,15 @@ class Server
     /**
      * Get deletedAt.
      *
-     * @return DateTime
+     * @return \DateTime
      */
-    public function getDeletedAt(): ?DateTime
+    public function getDeletedAt(): ?\DateTime
     {
         return $this->deletedAt;
     }
 
     /**
      * Set virtual.
-     *
-     * @param bool $virtual
      *
      * @return Server
      */
@@ -378,8 +378,6 @@ class Server
 
     /**
      * Set environment.
-     *
-     * @param Environment $environment
      *
      * @return Server
      */
@@ -427,8 +425,6 @@ class Server
     /**
      * Set state.
      *
-     * @param int $state
-     *
      * @return Server
      */
     public function setState(int $state): self
@@ -465,8 +461,6 @@ class Server
 
     /**
      * Set os.
-     *
-     * @param OperatingSystem $operatingSystem
      *
      * @return Server
      */

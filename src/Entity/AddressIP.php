@@ -13,7 +13,6 @@ namespace App\Entity;
 
 use App\Repository\AddressIPRepository;
 use Doctrine\ORM\Mapping as ORM;
-use ErrorException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -21,19 +20,21 @@ use Symfony\Component\Validator\Constraints as Assert;
  * AddressIP.
  *
  * @ORM\Table(name="addressip")
+ *
  * @ORM\Entity(repositoryClass=AddressIPRepository::class)
  * UniqueEntity(fields="ip", message="Cette adresse IP est déjà utilisée, merci d'en choisir une autre")
+ *
  * @SuppressWarnings(PHPMD.ShortVariable)
  */
-class AddressIP
+class AddressIP implements \Stringable
 {
     /**
      * Constantes des différents statuts.
      */
-    public const STATUS_FREE = 0;
-    public const STATUS_BUSY = 1;
-    public const STATUS_BOOK = 2;
-    public const STATUS_UNAV = 3;
+    final public const STATUS_FREE = 0;
+    final public const STATUS_BUSY = 1;
+    final public const STATUS_BOOK = 2;
+    final public const STATUS_UNAV = 3;
 
     /**
      * Liste des différents statuts.
@@ -51,7 +52,9 @@ class AddressIP
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id; /** @phpstan-ignore-line */
@@ -62,6 +65,7 @@ class AddressIP
      * @var string
      *
      * @ORM\Column(name="ip", type="string", unique=true, length=20)
+     *
      * @Assert\Ip
      */
     private $ip;
@@ -72,6 +76,7 @@ class AddressIP
      * @var string
      *
      * @ORM\Column(name="hostname", type="string", nullable=true, length=255)
+     *
      * @Assert\Regex("/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/")
      */
     private $hostname;
@@ -125,6 +130,7 @@ class AddressIP
      * Liaison avec les serveurs //, cascade={"persist"}, mappedBy="addressIPs".
      *
      * @var Server
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Server", cascade={"persist"}, inversedBy="addressIPs")
      * ORM\JoinColumn(referencedColumnName="toto")
      */
@@ -145,7 +151,7 @@ class AddressIP
         $result = [];
         foreach (self::$states as $key => $state) {
             if (!isset($state[$field])) {
-                throw new ErrorException("Le champs \"{$field}\" n'existe pas dans la propriété \"states\" de l'entité \"AddressIP\"");
+                throw new \ErrorException("Le champs \"{$field}\" n'existe pas dans la propriété \"states\" de l'entité \"AddressIP\"");
             }
             $result[$key] = $state[$field];
         }
@@ -179,7 +185,7 @@ class AddressIP
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return "{$this->ip}";
     }
@@ -399,7 +405,7 @@ class AddressIP
      *
      * @return AddressIP
      */
-    public function setServer(?Server $server = null): self
+    public function setServer(Server $server = null): self
     {
         $this->server = $server;
 

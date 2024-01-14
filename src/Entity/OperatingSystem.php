@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,9 +18,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Entité des systèmes d'exploitation.
  *
  * @ORM\Table(name="os")
+ *
  * @ORM\Entity
  */
-class OperatingSystem
+class OperatingSystem implements \Stringable
 {
     /**
      * Liste des fabriquants.
@@ -65,7 +65,9 @@ class OperatingSystem
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id; /** @phpstan-ignore-line */
@@ -76,6 +78,7 @@ class OperatingSystem
      * @var string
      *
      * @ORM\Column(name="vendor", type="string", length=20)
+     *
      * @Assert\NotBlank
      */
     private $vendor;
@@ -86,6 +89,7 @@ class OperatingSystem
      * @var string
      *
      * @ORM\Column(name="family", type="string", length=20)
+     *
      * @Assert\NotBlank
      */
     private $family;
@@ -96,7 +100,9 @@ class OperatingSystem
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=50)
+     *
      * @Assert\NotBlank
+     *
      * @Assert\Length(max="50", maxMessage="Taille maximum de {{ limit }} caractères")
      */
     private $name;
@@ -107,6 +113,7 @@ class OperatingSystem
      * @var string
      *
      * @ORM\Column(name="service_pack", type="string", length=10, nullable=true)
+     *
      * @Assert\Length(max="10", maxMessage="Taille maximum de {{ limit }} caractères")
      */
     private $servicePack;
@@ -117,6 +124,7 @@ class OperatingSystem
      * @var string
      *
      * @ORM\Column(name="version", type="string", length=20, nullable=true)
+     *
      * @Assert\Length(max="20", maxMessage="Taille maximum de {{ limit }} caractères")
      */
     private $version;
@@ -127,6 +135,7 @@ class OperatingSystem
      * @var int
      *
      * @ORM\Column(name="bits", type="smallint")
+     *
      * @Assert\NotBlank
      */
     private $bits;
@@ -137,6 +146,7 @@ class OperatingSystem
      * @var string
      *
      * @ORM\Column(name="additional", type="string", length=50, nullable=true)
+     *
      * @Assert\Length(max="50", maxMessage="Taille maximum de {{ limit }} caractères")
      */
     private $additional;
@@ -144,7 +154,7 @@ class OperatingSystem
     /**
      * Fin du support.
      *
-     * @var DateTime
+     * @var \DateTime
      *
      * @ORM\Column(name="support_end", type="date", nullable=true)
      */
@@ -212,8 +222,6 @@ class OperatingSystem
     /**
      * Set vendor.
      *
-     * @param string $vendor
-     *
      * @return OperatingSystem
      */
     public function setVendor(string $vendor): self
@@ -236,8 +244,6 @@ class OperatingSystem
     /**
      * Set family.
      *
-     * @param string $family
-     *
      * @return OperatingSystem
      */
     public function setFamily(string $family): self
@@ -259,8 +265,6 @@ class OperatingSystem
 
     /**
      * Set name.
-     *
-     * @param string $name
      *
      * @return OperatingSystem
      */
@@ -332,8 +336,6 @@ class OperatingSystem
     /**
      * Set bits.
      *
-     * @param int $bits
-     *
      * @return OperatingSystem
      */
     public function setBits(int $bits): self
@@ -380,11 +382,11 @@ class OperatingSystem
     /**
      * Set supportEnd.
      *
-     * @param DateTime $supportEnd
+     * @param \DateTime $supportEnd
      *
      * @return OperatingSystem
      */
-    public function setSupportEnd(?DateTime $supportEnd): self
+    public function setSupportEnd(?\DateTime $supportEnd): self
     {
         $this->supportEnd = $supportEnd;
 
@@ -394,17 +396,15 @@ class OperatingSystem
     /**
      * Get supportEnd.
      *
-     * @return DateTime
+     * @return \DateTime
      */
-    public function getSupportEnd(): ?DateTime
+    public function getSupportEnd(): ?\DateTime
     {
         return $this->supportEnd;
     }
 
     /**
      * Set icon.
-     *
-     * @param string $icon
      *
      * @return OperatingSystem
      */
